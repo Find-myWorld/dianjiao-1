@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="105dp"
+    android:layout_height="135dp">
+    <!--210*275-->
+    <ImageView
+        android:id="@+id/jianshi_gv_item_iv"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:padding="10dp"
+        android:clickable="false"
+        android:src="@color/login_btn_blue"/>
+    <TextView
+        android:id="@+id/jianshi_gv_item_tv"
+        android:layout_below="@id/jianshi_gv_item_iv"
+        android:layout_alignParentLeft="true"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="监室01"
+        android:clickable="false"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
+
+    <CheckBox
+        android:id="@+id/jianshi_gv_item_cb"
+        android:layout_width="105dp"
+        android:layout_height="137dp"
+        android:button="@null"
+        android:background="@drawable/bluestroke_checkbox"/>
+</RelativeLayout>

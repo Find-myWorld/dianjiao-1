@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="login_input_gray">#44000000</color>
+    <color name="login_btn_blue">#00AEEF</color>
+    <color name="login_bottom_green">#2200FFFF</color>
+    <color name="select_all_green">#009944</color>
+    <color name="del_select_gray">#2C2C2C</color>
+    <color name="browse_gray">#24323a</color>
+    <color name="browse_text">#667075</color>
+    <color name="white">#FFFFFF</color>
+    <color name="plan_selected_bg_blue">#54BBC7</color>
+    <color name="plan_selected_stroke_blue">#00FFFF</color>
+    <color name="online_monitor_lv_th_bg">#66184D7B</color>
+    <color name="online_monitor_lv_td_bg">#33000000</color>
+    <color name="impore_export_blue">#88004986</color>
+    <color name="impore_export_browse_blue">#325A7D</color>
+</resources>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/main_bg"
+    tools:context="com.dj.dianjiao.activity.PicturePlayActivity">
+    <include layout="@layout/base_top"></include>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:padding="20dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
+            android:background="@drawable/shape_gray_bg">
+
+            <ImageView
+                android:id="@+id/pp_picture_play_iv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:src="@mipmap/picture"/>
+
+            <TextView
+                android:id="@+id/pp_picture_play_tv"
+                android:layout_toRightOf="@id/pp_picture_play_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:textSize="20sp"
+                android:textColor="@color/login_btn_blue"
+                android:text="@string/tuwenbobao"/>
+
+            <LinearLayout
+                android:layout_below="@id/pp_picture_play_tv"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/shape_black_bg">
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.25"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:hint="@string/search_file"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.75"
+                    android:padding="10dp"
+                    android:src="@mipmap/search"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shape_gray_rightcorner">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:src="@mipmap/folder"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textSize="18sp"
+                        android:textColor="@color/browse_text"
+                        android:text="@string/browse"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <GridView
+                android:id="@+id/pp_send_picture_gv"
+                android:layout_marginTop="120dp"
+                android:layout_marginBottom="150dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:numColumns="3"
+                android:verticalSpacing="5dp"
+                android:horizontalSpacing="5dp">
+
+            </GridView>
+
+            <EditText
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="70dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/shape_white_bg"/>
+            <RelativeLayout
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/pp_checked_picture_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/checked_picture"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/pp_checked_picture_num_tv"
+                    android:layout_toRightOf="@id/pp_checked_picture_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"/>
+            </RelativeLayout>
+
+            <Button
+                android:layout_marginBottom="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:gravity="center"
+                android:background="@drawable/shape_blue_bigcorner_bg"
+                android:text="@string/sure_send"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+
+        <include layout="@layout/base_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.2"
+            android:layout_marginLeft="20dp"/>
+    </LinearLayout>
+</RelativeLayout>

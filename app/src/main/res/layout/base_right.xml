@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_bluestroke_gray_bg">
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="@drawable/shape_topcorner_gray_bg"
+        android:scrollbars="none">
+
+        <RadioGroup
+            android:id="@+id/jianqu_rg"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
+        </RadioGroup>
+    </HorizontalScrollView>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/jianshi_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="66dp"
+        android:layout_marginBottom="140dp">
+
+    </android.support.v4.view.ViewPager  >
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <LinearLayout
+            android:id="@+id/point_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/jianshi_type_03_tv"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:text="@string/jianshi_type_03"/>
+
+        <ImageView
+            android:id="@+id/jianshi_type_03_iv"
+            android:layout_toLeftOf="@id/jianshi_type_03_tv"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@mipmap/jianshi_type_03"/>
+
+        <TextView
+            android:id="@+id/jianshi_type_02_tv"
+            android:layout_toLeftOf="@id/jianshi_type_03_iv"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:text="@string/jianshi_type_02"/>
+
+        <ImageView
+            android:id="@+id/jianshi_type_02_iv"
+            android:layout_toLeftOf="@id/jianshi_type_02_tv"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@mipmap/jianshi_type_02"/>
+
+        <TextView
+            android:id="@+id/jianshi_type_01_tv"
+            android:layout_toLeftOf="@id/jianshi_type_02_iv"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:text="@string/jianshi_type_01"/>
+
+        <ImageView
+            android:id="@+id/jianshi_type_01_iv"
+            android:layout_toLeftOf="@id/jianshi_type_01_tv"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@mipmap/jianshi_type_01"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/shape_top_blue_stroke">
+
+        <TextView
+            android:id="@+id/selected_jianshi_tv"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/selected_jianshi"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/selected_jianshi_num_tv"
+            android:layout_toRightOf="@id/selected_jianshi_tv"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/del_select_btn"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_del_gray_bg"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:text="@string/del_select"/>
+
+        <Button
+            android:id="@+id/select_all_btn"
+            android:layout_toLeftOf="@id/del_select_btn"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_green_bg"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:text="@string/select_all"/>
+    </RelativeLayout>
+</RelativeLayout>

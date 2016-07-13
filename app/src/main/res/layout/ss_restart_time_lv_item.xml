@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="450dp"
+    android:layout_height="50dp">
+
+    <TextView
+        android:id="@+id/ss_restart_time_lv_item_name_tv"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:gravity="center_vertical|right"
+        android:paddingRight="30dp"
+        android:text="时间1"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"/>
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="150dp"
+        android:background="@drawable/shape_white_bg">
+        <TextView
+            android:id="@+id/ss_restart_time_lv_item_time_tv"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="20dp"
+            android:background="@null"
+            android:text="22:30:25"
+            android:textColor="#012D55"
+            android:textSize="20sp"/>
+        <ImageView
+            android:id="@+id/ss_restart_time_lv_item_iv"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:src="@mipmap/date"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

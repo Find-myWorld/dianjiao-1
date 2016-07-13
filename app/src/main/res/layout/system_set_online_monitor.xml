@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ss_online_monitor_rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="2dp"
+    android:background="@drawable/shape_whitestroke_bg"
+    android:visibility="gone">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/online_monitor_lv_th_bg"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
+            android:text="@string/id_num"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:background="@color/online_monitor_lv_th_bg"
+            android:layout_marginLeft="2dp"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
+            android:text="@string/product_name"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@color/online_monitor_lv_th_bg"
+            android:layout_marginLeft="2dp"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
+            android:text="@string/state"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/ss_online_monitor_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="2dp">
+
+    </ListView>
+</RelativeLayout>

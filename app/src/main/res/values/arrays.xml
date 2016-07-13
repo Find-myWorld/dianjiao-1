@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="action_array">
+        <item>开机</item>
+        <item>关机</item>
+    </string-array>
+</resources>
