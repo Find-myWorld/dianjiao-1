@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by wmxxkj on 2016/6/22.
  */
-public class SerializableDomain implements Serializable{
+public class SerializableDomain implements Serializable{//
     public SerializableDomain(){}
     private List<Jianshi> jianshiList;
 

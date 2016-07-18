@@ -132,7 +132,7 @@ public class JianshiGVAdapter extends BaseAdapter {
                 if(jianshi.getIsChecked()!=isSelectAll){
                     EventBus.getDefault().post(new JianshiItemClickEvent(jianshi.getName(), isSelectAll));
                 }
-                jianshi.setIsChecked(isSelectAll);
+                jianshi.setIsChecked(isSelectAll);//更改状态
             }
         }
         notifyDataSetChanged();

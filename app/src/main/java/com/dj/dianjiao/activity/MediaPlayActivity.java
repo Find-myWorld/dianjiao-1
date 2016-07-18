@@ -1,6 +1,7 @@
 package com.dj.dianjiao.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.dj.dianjiao.adapter.SendMediaLVAdapter;
 import com.dj.dianjiao.domain.BaseEvent;
 import com.dj.dianjiao.domain.Jianqu;
 import com.dj.dianjiao.domain.Jianshi;
+import com.dj.dianjiao.domain.JianshiAndJianqu;
 import com.dj.dianjiao.domain.JianshiItemAllEvent;
 import com.dj.dianjiao.domain.JianshiItemClickEvent;
 import com.dj.dianjiao.domain.SendMedia;
@@ -29,15 +31,11 @@ import com.dj.dianjiao.fragment.JianshiPagerFragment;
 import com.dj.dianjiao.manger.JianquManger;
 import com.dj.dianjiao.manger.JianshiManger;
 import com.dj.dianjiao.manger.SendMediaManger;
+import com.dj.dianjiao.service.MediaSendService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,12 +93,11 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
         sendMediaList = new ArrayList<SendMedia>();
 
         initViews();
-        startListenThread();
         sendMediaManger.loadSendMediaList();
         jianquManger.loadJianquList();
     }
 
-
+    private int jianquID;
 
     private void initViews() {
         sendMediaLV = (ListView) findViewById(R.id.mp_send_media_lv);
@@ -118,11 +115,14 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
         confirmSendBTN.setOnClickListener(this);
 
 
-        jianquRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        jianquRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {//监区选定操作
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                jianquID = checkedId;
+                /*清除所有集合里的数据*/
+                cleanAllList();
                 RadioButton temp = getRadioButtonById(checkedId);
-                jianshiManger.loadJianshiList(temp.getText().toString().trim());
+                jianshiManger.loadJianshiList(temp.getText().toString().trim());//初始化操作,获取gv数据
             }
         });
 
@@ -147,6 +147,13 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
 
         sendMediaLV.setAdapter(sendMediaLVAdapter);
 
+    }
+
+    private void cleanAllList() {
+        jianqu1List.clear();
+        jianqu2List.clear();
+        jianqu3List.clear();
+        jianqu4List.clear();
     }
 
     private RadioButton getRadioButtonById(int id) {
@@ -192,6 +199,7 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
 
     @Override
     public void onGetJianshiListCompleted(List<Jianshi> jianshiList) {
+
         Log.d(TAG, "" + jianshiList.get(0).getJianquName() + jianshiList.get(0).getIsChecked());
         if (mJianshiList.size()>0){
             mJianshiList.clear();
@@ -199,7 +207,8 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
         mJianshiList.addAll(jianshiList);
         fragmentList.clear();
         List<Jianshi> temp = new ArrayList<Jianshi>();
-        if(jianshiList!=null && jianshiList.size()>0){
+        /*根据获取的监室数来分配相对应的Page数*/
+        if(jianshiList!=null && jianshiList. size()>0){
             for (int i=1;i<=jianshiList.size();i++){
                 temp.add(jianshiList.get(i-1));
                 if(i%pager_size==0){
@@ -214,7 +223,7 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
             }
         }
         jianshiViewPager.removeAllViews();
-        jianshiPagerAdapter.setFragmentList(fragmentList);
+        jianshiPagerAdapter.setFragmentList(fragmentList);//pages集合放入adapter
         jianshiViewPager.setAdapter(jianshiPagerAdapter);
         selectedNum = 0;
         selectNumTV.setText("" + selectedNum);
@@ -265,48 +274,24 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
         }
     }
 
-    private BufferedReader br = null;
-    private PrintWriter pw = null;
-    private void sendMediaResources(){//客户端发送socket
-        try {
-            //Socket client =  new Socket("192.168.0.109",5000);
-            Socket client = new Socket("10.0.2.15",5000);
-            br = new BufferedReader(new InputStreamReader(client.getInputStream(),"UTF-8"));
-            pw = new PrintWriter(client.getOutputStream());
-            sendMsg2Server();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    private void sendMediaResources(){//客户端开启service 发起socket请求
+        Intent intent = new Intent(getApplicationContext(), MediaSendService.class);
+        JianshiAndJianqu andJianqu = new JianshiAndJianqu();
+        andJianqu.setMovieFiles(movieFiles);
+        andJianqu.setJianqu1List(jianqu1List);
+        andJianqu.setJianqu2List(jianqu2List);
+        andJianqu.setJianqu3List(jianqu3List);
+        andJianqu.setJianqu4List(jianqu4List);
+        intent.putExtra("jianqujianshi",andJianqu);
+        startService(intent);
+        Log.d("tag","MediaSendService开启？");
     }
 
-    private void sendMsg2Server() {
-        String msg = "client发送";
-        pw.println(msg);
-        pw.flush();
-    }
-
-    private void startListenThread() {
-        new Thread() {
-            @Override
-            public void run() {
-                for(;;) {
-                    if(br!=null) {
-                        try {
-                            String msg = br.readLine();
-                            if(msg!=null) {
-                                Log.d("tag","接收到server的响应:"+msg);
-                            }else {
-                                Log.d("tag","接收到信息为空");
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }.start();
-    }
+    List<String> movieFiles = new ArrayList<>();
+    List<String> jianqu1List = new ArrayList<>();
+    List<String> jianqu2List = new ArrayList<>();
+    List<String> jianqu3List = new ArrayList<>();
+    List<String> jianqu4List = new ArrayList<>();
 
     @Subscribe
     public void onEvent(BaseEvent event){
@@ -317,6 +302,8 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
                 selectedNum--;
             }
             selectNumTV.setText(""+selectedNum);
+            /*拿到各监区选中的条目数*/
+            setJianshiJianquDate(jianquID,((JianshiItemClickEvent) event).getName());
         }else if (event instanceof SendMediaItemClickEvent){
             if (((SendMediaItemClickEvent) event).isChecked()){
                 sendMediaCheckedNum++;
@@ -324,7 +311,27 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
                 sendMediaCheckedNum--;
             }
             sendMediaCheckedTV.setText(""+sendMediaCheckedNum);
+            movieFiles.add(((SendMediaItemClickEvent) event).getMovieName());//添加发送数据 电影名
         }
+    }
+
+    private void setJianshiJianquDate(int jianquID, String name) {
+        switch (jianquID) {
+            case 1:
+                jianqu1List.add(name);
+                break;
+            case 2:
+                jianqu2List.add(name);
+                break;
+            case 3:
+                jianqu3List.add(name);
+                break;
+            case 4:
+                jianqu4List.add(name);
+            default:
+                break;
+        }
+
     }
 
     @Override

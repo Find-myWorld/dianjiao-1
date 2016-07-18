@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by wmxxkj on 2016/6/22.
  */
-public class OnlineMonitorLVAdapter extends BaseAdapter {
+public class OnlineMonitorLVAdapter extends BaseAdapter {//在线监视
     private static final String TAG = "OnlineMonitorLVAdapter";
     private Context mContext;
     private List<OnlineMonitor> onlineMonitorList;
@@ -62,6 +62,7 @@ public class OnlineMonitorLVAdapter extends BaseAdapter {
             viewHolder.idTV = idTV;
             viewHolder.productNameTV = productNameTV;
             viewHolder.stateTV = stateTV;
+            //TODO setTag?
 
         } else { // Otherwise re-use the converted view
             viewHolder = (OnlineMonitorViewHolder)convertView.getTag();
@@ -86,6 +87,6 @@ public class OnlineMonitorLVAdapter extends BaseAdapter {
         if(mOnlineMonitorList!=null&&mOnlineMonitorList.size()>0){
             onlineMonitorList.addAll(mOnlineMonitorList);
         }
-        notifyDataSetChanged();
+        notifyDataSetChanged();//dd
     }
 }

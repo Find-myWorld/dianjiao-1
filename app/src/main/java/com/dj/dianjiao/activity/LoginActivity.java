@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initViews();
         EventBus.getDefault().register(this);
 
+
     }
 
     private void initViews() {

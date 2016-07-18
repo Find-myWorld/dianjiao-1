@@ -26,6 +26,7 @@ public class NettyClient {
             // Start the connection attempt.开始连接
             Channel ch = b.connect(HOST, PORT).sync().channel();
 
+
             ChannelFuture cf = ch.writeAndFlush(msg + "\r\n");
             ch.closeFuture().sync();
             if(cf.isSuccess()) {

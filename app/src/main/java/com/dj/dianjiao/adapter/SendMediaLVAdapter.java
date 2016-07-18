@@ -96,18 +96,13 @@ public class SendMediaLVAdapter extends BaseAdapter {
         timeTV.setText(sendMedia.getTime());
         isCheckCB.setChecked(sendMedia.isChecked());
 
-        /*isCheckCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                EventBus.getDefault().post(new JianshiItemClickEvent(jianshi.getName(), isChecked));
-            }
-        });*/
 
         isCheckCB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(v instanceof CheckBox){
-                    EventBus.getDefault().post(new SendMediaItemClickEvent(((CheckBox) v).isChecked()));
+                    //SendMedia item = (SendMedia) SendMediaLVAdapter.this.getItem(((CheckBox) v).getId());
+                    EventBus.getDefault().post(new SendMediaItemClickEvent(((CheckBox) v).isChecked(),"独立日"));
                     sendMedia.setIsChecked(((CheckBox) v).isChecked());
                 }
             }

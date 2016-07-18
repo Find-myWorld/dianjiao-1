@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by wmxxkj on 2016/6/30.
  */
-public class OnlineMonitor implements Serializable{
+public class OnlineMonitor implements Serializable{//记录在线监视的人员信息
     private String id;
     private String productName;
     private String state;

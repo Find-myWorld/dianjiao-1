@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by wmxxkj on 2016/6/22.
  */
-public class JianquManger {
+public class JianquManger {//
     private static final String TAG = "JianquManger";
     private Context mContext;
 

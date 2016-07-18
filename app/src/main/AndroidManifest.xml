@@ -37,6 +37,7 @@
         <activity android:name=".activity.SystemSetActivity" >
         </activity>
         <service android:name=".service.LoginService"></service>
+        <service android:name=".service.MediaSendService"></service>
     </application>
 
 </manifest>

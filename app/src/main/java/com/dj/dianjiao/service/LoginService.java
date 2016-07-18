@@ -5,7 +5,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -37,7 +36,7 @@ public class LoginService extends IntentService{
     }
 
 
-    @Nullable
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -54,15 +53,13 @@ public class LoginService extends IntentService{
         new Thread() {
             @Override
             public void run() {
-                Socket client = null;
-                PrintWriter pw = null;
                 try {
                     jsonObject.put("username",username);
                     jsonObject.put("password",password);
                     jsonStrm =  jsonObject.toString();
                     Log.d("tag",jsonStrm);
                     //向服务端发送信息
-                    NettyClient.sendMsg2Server(jsonStrm);
+                    NettyClient.sendMsg2Server(jsonStrm+"+login");
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.d("error","与该IP地址无法建立通信");
