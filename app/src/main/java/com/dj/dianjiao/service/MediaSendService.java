@@ -20,21 +20,27 @@ public class MediaSendService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Serializable mediaPlay = intent.getSerializableExtra("jianqujianshi");
-        Gson gson = new Gson();
-        String jsonStr = gson.toJson(mediaPlay);
-        Log.d("tag",jsonStr);
-        try {
-           // NettyClient.sendMsg2Server(jsonStr+"+mediaPlay");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("nettyClient 启动失败");
-        }
+        final Serializable jianqujianshi = intent.getSerializableExtra("jianqujianshi");
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Gson gson = new Gson();
+                    String jsonStr = gson.toJson(jianqujianshi);
+                    Log.d("tag",jsonStr);
+                    NettyClient.sendMsg2Server(jsonStr+"+mediaPlay");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.err.println("nettyClient 启动失败");
+                }
+            }
+        }.start();
+
     }
 
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-        Log.d("tag","MediaSendService开启？");
+        Log.d("tag","MediaSendService开启");
     }
 }

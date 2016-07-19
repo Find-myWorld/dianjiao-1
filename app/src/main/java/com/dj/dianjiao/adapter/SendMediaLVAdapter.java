@@ -51,7 +51,7 @@ public class SendMediaLVAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final SendMedia sendMedia = sendMediaList.get(position);
         ImageView pictureIV;
         TextView nameTV;
@@ -101,8 +101,8 @@ public class SendMediaLVAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if(v instanceof CheckBox){
-                    //SendMedia item = (SendMedia) SendMediaLVAdapter.this.getItem(((CheckBox) v).getId());
-                    EventBus.getDefault().post(new SendMediaItemClickEvent(((CheckBox) v).isChecked(),"独立日"));
+                    SendMedia item = (SendMedia) SendMediaLVAdapter.this.getItem(position);
+                    EventBus.getDefault().post(new SendMediaItemClickEvent(((CheckBox) v).isChecked(),item.getName()));
                     sendMedia.setIsChecked(((CheckBox) v).isChecked());
                 }
             }

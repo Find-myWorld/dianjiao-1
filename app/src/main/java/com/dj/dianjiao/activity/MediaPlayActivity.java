@@ -284,7 +284,6 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
         andJianqu.setJianqu4List(jianqu4List);
         intent.putExtra("jianqujianshi",andJianqu);
         startService(intent);
-        Log.d("tag","MediaSendService开启？");
     }
 
     List<String> movieFiles = new ArrayList<>();
@@ -306,12 +305,14 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
             setJianshiJianquDate(jianquID,((JianshiItemClickEvent) event).getName());
         }else if (event instanceof SendMediaItemClickEvent){
             if (((SendMediaItemClickEvent) event).isChecked()){
+                movieFiles.add(((SendMediaItemClickEvent) event).getMovieName());//添加发送数据 电影名
                 sendMediaCheckedNum++;
             }else {
                 sendMediaCheckedNum--;
+                movieFiles.remove(((SendMediaItemClickEvent) event).getMovieName());
             }
             sendMediaCheckedTV.setText(""+sendMediaCheckedNum);
-            movieFiles.add(((SendMediaItemClickEvent) event).getMovieName());//添加发送数据 电影名
+
         }
     }
 
