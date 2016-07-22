@@ -1,6 +1,7 @@
 package com.dj.dianjiao.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.dj.dianjiao.domain.JianshiItemClickEvent;
 import com.dj.dianjiao.fragment.JianshiPagerFragment;
 import com.dj.dianjiao.manger.JianquManger;
 import com.dj.dianjiao.manger.JianshiManger;
+import com.dj.dianjiao.service.PlayControlService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,6 +58,7 @@ public class PlayControlActivity extends BaseActivity implements JianquManger.Ca
     private Button delSelectALLBTN;
 
     private int pager_size = 18;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +92,8 @@ public class PlayControlActivity extends BaseActivity implements JianquManger.Ca
 
         selectAllBTN.setOnClickListener(this);
         delSelectALLBTN.setOnClickListener(this);
+        intent = new Intent(this, PlayControlService.class);
 
-        controlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                //
-            }
-        });
 
         jianquRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -247,5 +245,23 @@ public class PlayControlActivity extends BaseActivity implements JianquManger.Ca
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+
+        switch(controlRG.getCheckedRadioButtonId()){
+            case R.id.pc_dvd_rb:
+                intent.putExtra("playControl","dvd");
+                startService(intent);
+                break;
+            case R.id.pc_tv_rb:
+                intent.putExtra("playControl","tv");
+                startService(intent);
+                break;
+            case R.id.pc_class_rb:
+                intent.putExtra("playControl","class");
+                startService(intent);
+                break;
+            default:
+                break;
+        }
+
     }
 }

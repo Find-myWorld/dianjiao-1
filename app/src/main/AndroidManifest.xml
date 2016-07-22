@@ -38,6 +38,7 @@
         </activity>
         <service android:name=".service.LoginService"></service>
         <service android:name=".service.MediaSendService"></service>
+        <service android:name=".service.PlayControlService"></service>
     </application>
 
 </manifest>
