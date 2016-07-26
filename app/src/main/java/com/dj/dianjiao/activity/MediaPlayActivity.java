@@ -305,8 +305,8 @@ public class MediaPlayActivity extends BaseActivity implements JianquManger.Call
             setJianshiJianquDate(jianquID,((JianshiItemClickEvent) event).getName());
         }else if (event instanceof SendMediaItemClickEvent){
             if (((SendMediaItemClickEvent) event).isChecked()){
-                movieFiles.add(((SendMediaItemClickEvent) event).getMovieName());//添加发送数据 电影名
                 sendMediaCheckedNum++;
+                movieFiles.add(((SendMediaItemClickEvent) event).getMovieName());//添加发送数据 电影名
             }else {
                 sendMediaCheckedNum--;
                 movieFiles.remove(((SendMediaItemClickEvent) event).getMovieName());

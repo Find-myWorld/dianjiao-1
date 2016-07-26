@@ -13,4 +13,5 @@ import java.io.Serializable;
 public class ServerAddressViewHolder implements Serializable{
     public EditText addressET;
     public TextView nameTV;
+    public CheckBox addressCB;
 }

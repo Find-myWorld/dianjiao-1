@@ -3,6 +3,7 @@ package com.dj.dianjiao.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -19,14 +20,20 @@ import com.dj.dianjiao.adapter.ServerAddressGVAdapter;
 import com.dj.dianjiao.domain.OnlineMonitor;
 import com.dj.dianjiao.domain.RestartTime;
 import com.dj.dianjiao.domain.ServerAddress;
+import com.dj.dianjiao.domain.ServerAddressEvent;
 import com.dj.dianjiao.manger.FileManger;
 import com.dj.dianjiao.manger.OnlineMonitorManger;
 import com.dj.dianjiao.manger.RestartTimeManger;
 import com.dj.dianjiao.manger.ServerAddressManger;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class SystemSetActivity extends BaseActivity implements ServerAddressManger.CallBack, RestartTimeManger.CallBack, OnlineMonitorManger.CallBack, FileManger.CallBack {
+public class SystemSetActivity extends BaseActivity implements ServerAddressManger.CallBack, RestartTimeManger.CallBack, OnlineMonitorManger.CallBack, FileManger.CallBack,View.OnClickListener{
     private Context mContext;
     private RadioGroup ssRG;
     private RadioButton timeSyncRB;
@@ -66,12 +73,16 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
     private ListView exportFileLV;
     private FileLVAdapter exportFileLVAdapter;
     private FileManger exportFileManger;
+    private Button addAddressBTN;
+    private Button deleteAddressBTN;
+    private TextView selectItemTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_system_set);
         mContext = getApplicationContext();
+        EventBus.getDefault().register(this);
         initBaseViews();
 
         serverAddressManger = new ServerAddressManger(mContext);
@@ -115,10 +126,16 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
         productInfoRL = (RelativeLayout) findViewById(R.id.ss_product_info_rl);
         titleTV = (TextView) findViewById(R.id.ss_title_tv);
 
+        addAddressBTN = (Button) findViewById(R.id.ss_server_address_add_btn);
+        deleteAddressBTN = (Button) findViewById(R.id.ss_server_address_delete_btn);
+        selectItemTV = (TextView) findViewById(R.id.ss_server_address_selected_item);
+
         serverAddressGV = (GridView) findViewById(R.id.ss_server_address_gv);
         serverAddressRG = (RadioGroup) findViewById(R.id.ss_server_address_rg);
         serverAddressServerRB = (RadioButton) findViewById(R.id.ss_server_address_server_rb);
         serverAddressStreamMediaRB = (RadioButton) findViewById(R.id.ss_server_address_stream_media_rb);
+
+
 
         restartTimeLV = (ListView) findViewById(R.id.ss_restart_time_lv);
 
@@ -126,6 +143,9 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
 
         exportFileLV = (ListView) findViewById(R.id.ss_import_export_file_lv);
 
+        addAddressBTN.setOnClickListener(this);
+        deleteAddressBTN.setOnClickListener(this);
+        
         serverAddressGV.setAdapter(serverAddressGVAdapter);
         serverAddressRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -203,11 +223,62 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
         });
     }
 
+    private int serverAddressNum = 0;
+    private List<String> selectBTNList = new ArrayList<>();
+    @Subscribe
+    public void onEventMainThread(ServerAddressEvent event){
+        if(event.isChecked()){
+            serverAddressNum++;
+            selectBTNList.add(event.getPosition());
+        }else{
+            serverAddressNum--;
+            selectBTNList.remove(event.getPosition());
 
+        }
+        Collections.sort(selectBTNList);
+        System.err.println(selectBTNList);
+    }
+
+    @Override
+    public void onClick(View v){
+        boolean deletTag = true;
+        int count = 1;//删除标记数
+
+        switch (v.getId()){
+            case R.id.ss_server_address_delete_btn:
+                System.err.println("点击？");
+                for(int i = 0;i <selectBTNList.size();i++){
+                    if(deletTag){
+                        serverAddressList.remove(Integer.parseInt(selectBTNList.get(i)));
+                        deletTag = false;
+                    }else{
+                        serverAddressList.remove(Integer.parseInt(selectBTNList.get(i))-count);
+                        count++;
+                    }
+                    //selectBTNList.remove(selectBTNList.get(i));
+                }
+                System.err.println(serverAddressList);
+                selectBTNList.clear();
+                serverAddressGVAdapter.setServerAddressList(serverAddressList);
+                serverAddressGVAdapter.notifyDataSetChanged();
+                break;
+            case R.id.ss_server_address_add_btn:
+                selectItemTV.setText("已选项目:"+serverAddressNum);
+                ServerAddress serverAddress = new ServerAddress("地址0"+(serverAddressList.size()+1)+" : ","");
+                serverAddressList.add(serverAddress);
+                serverAddressGVAdapter.setServerAddressList(serverAddressList);
+                serverAddressGVAdapter.notifyDataSetChanged();
+                break;
+
+        }
+    }
+
+    private List<ServerAddress> serverAddressList;
 
     @Override
     public void onGetServerAddressListCompleted(List<ServerAddress> serverAddressList) {
         if (serverAddressList!=null){
+            this.serverAddressList = serverAddressList;
             serverAddressGVAdapter.setServerAddressList(serverAddressList);
         }
     }
@@ -238,5 +309,11 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
         if(fileList!=null){
             exportFileLVAdapter.setFileList(fileList);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

@@ -456,8 +456,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@drawable/shape_top_blue_stroke">
+
                 <Button
-                    android:id="@+id/pm_delete_change_btn"
+                    android:id="@+id/pm_cancel_change_btn"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
@@ -471,8 +472,8 @@
                     android:text="@string/delete_change"/>
 
                 <Button
-                    android:id="@+id/pm_add_change_btn"
-                    android:layout_toLeftOf="@id/pm_delete_change_btn"
+                    android:id="@+id/pm_commit_change_btn"
+                    android:layout_toLeftOf="@id/pm_cancel_change_btn"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
                     android:paddingLeft="20dp"

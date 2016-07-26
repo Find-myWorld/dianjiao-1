@@ -3,6 +3,7 @@ package com.dj.dianjiao.activity;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,8 +26,12 @@ import android.widget.Toast;
 import com.dj.dianjiao.R;
 import com.dj.dianjiao.base.BaseActivity;
 import com.dj.dianjiao.adapter.FileLVAdapter;
+import com.dj.dianjiao.domain.DefiniteTimeEvent;
 import com.dj.dianjiao.domain.Plan;
 import com.dj.dianjiao.manger.PlanManger;
+import com.dj.dianjiao.service.DefiniteService;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,8 +55,7 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
     private ImageView addFileIV;
     private ImageView deleteFileIV;
     private EditText remarkET;
-    private Button addChangeBTN;
-    private Button deleteChangeBTN;
+
 
     private Context mContext;
     private List<Plan> planList;
@@ -65,6 +69,9 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
 
     private TimePickerDialog startTimePickerDialog;
     private TimePickerDialog overTimePickerDialog;
+    private Button commitModifyBTN;
+    private Button cancelModifyBTN;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +86,9 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
         radioButtonList = new ArrayList<RadioButton>();
         fileLVAdapter = new FileLVAdapter(mContext);
         initViews();
+        //EventBus.getDefault().register(this);
+        planManger.loadPlanList();//去加载计划任务的数据(local)
 
-        planManger.loadPlanList();
     }
 
     private void initViews() {
@@ -89,6 +97,10 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
         planRG = (RadioGroup) findViewById(R.id.pm_plan_rg);
         addPlanRL = (RelativeLayout) findViewById(R.id.pm_add_plan_rl);
         deletePlanRL = (RelativeLayout) findViewById(R.id.pm_delete_plan_rl);
+
+        commitModifyBTN = (Button) findViewById(R.id.pm_commit_change_btn);
+        cancelModifyBTN = (Button) findViewById(R.id.pm_cancel_change_btn);
+
         taskNameET = (EditText) findViewById(R.id.pm_task_name_et);
         startTimeTV = (TextView) findViewById(R.id.pm_start_time_tv);
         startTimeIV = (ImageView) findViewById(R.id.pm_start_time_iv);
@@ -106,9 +118,9 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
         fileLV = (ListView) findViewById(R.id.pm_file_lv);
         addFileIV = (ImageView) findViewById(R.id.pm_file_add_iv);
         deleteFileIV = (ImageView) findViewById(R.id.pm_file_delete_iv);
-        remarkET = (EditText) findViewById(R.id.pm_remark_et);
-        addChangeBTN = (Button) findViewById(R.id.pm_add_change_btn);
-        deleteChangeBTN = (Button) findViewById(R.id.pm_delete_change_btn);
+        remarkET = (EditText) findViewById(R.id.pm_remark_et);//备注
+      /*  addChangeBTN = (Button) findViewById(R.id.pm_add_change_btn);
+        deleteChangeBTN = (Button) findViewById(R.id.pm_delete_change_btn);*/
 
         fileLV.setAdapter(fileLVAdapter);
         planRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -124,8 +136,9 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
 
         deletePlanRL.setOnClickListener(this);
         addPlanRL.setOnClickListener(this);
-        deleteChangeBTN.setOnClickListener(this);
-        addChangeBTN.setOnClickListener(this);
+        commitModifyBTN.setOnClickListener(this);
+        cancelModifyBTN.setOnClickListener(this);
+
         addFileIV.setOnClickListener(this);
         deleteFileIV.setOnClickListener(this);
         startTimeIV.setOnClickListener(this);
@@ -218,12 +231,14 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
-            case R.id.pm_delete_plan_rl:
+            case R.id.pm_delete_plan_rl://删除计划
                 if(selectedPlan!=null&&selectedRB!=null){
                     if (planList!=null&&planList.size()>0&&radioButtonList!=null&&radioButtonList.size()>0){
+                        /*删除对应数据*/
                         planList.remove(selectedPlan);
                         radioButtonList.remove(selectedRB);
                         planRG.removeView(selectedRB);
+                        /**/
                         if(planList.size()>0&&radioButtonList.size()>0){
                             selectedPlan = planList.get(0);
                             selectedRB = radioButtonList.get(0);
@@ -239,11 +254,11 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
                     }
                 }
                 break;
-            case R.id.pm_add_plan_rl:
+            case R.id.pm_add_plan_rl://增加计划
                 isAdd = true;
                 initPlanValues(Plan.getEmptyInstance());
                 break;
-            case R.id.pm_delete_change_btn:
+            case R.id.pm_cancel_change_btn://取消修改
                 if (isAdd){
                     if(selectedPlan!=null){
                         selectedRB.setChecked(true);
@@ -263,7 +278,8 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
                     }
                 }
                 break;
-            case R.id.pm_add_change_btn:
+
+            case R.id.pm_commit_change_btn://提交修改
                 String taskName = taskNameET.getText().toString().trim();
                 if (taskName==null||"".equals(taskName)){
                     Toast.makeText(mContext,"任务名称不能为空！",Toast.LENGTH_SHORT).show();
@@ -296,6 +312,7 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
                         selectedPlan.setRemark(remark);
                         selectedRB.setText(taskName);
                         Toast.makeText(mContext,"修改成功！",Toast.LENGTH_SHORT).show();
+
                     }
                 }
                 break;
@@ -327,20 +344,23 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
                     }
                 }
                 break;
+
         }
     }
 
     @Override
     public void onGetPlanListCompleted(List<Plan> mPlanList) {
+        /*每一次加载移除ui和data,重新加载*/
         planList.clear();
         if (mPlanList!=null&&mPlanList.size()>0){
             planList.addAll(mPlanList);
         }
         planRG.removeAllViews();
         radioButtonList.clear();
-
+        /*增加左侧计划列表条目*/
         for (Plan plan:planList) {
             addRadioButtonByPlan(plan);
+
         }
 
         if (radioButtonList.size()>0){
@@ -382,5 +402,14 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
         }
         fileLVAdapter.setFileList(plan.getFileList());
         remarkET.setText(plan.getRemark());
+    }
+
+    @Override
+    protected void onDestroy() {
+
+      //  EventBus.getDefault().post(new DefiniteTimeEvent(planList));
+        //EventBus.getDefault().unregister(this);
+        startService(new Intent(this, DefiniteService.class));
+        super.onDestroy();
     }
 }

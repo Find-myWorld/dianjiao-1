@@ -2,7 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="450dp"
     android:layout_height="50dp">
-
+    <CheckBox
+        android:id="@+id/ss_server_address_selete_cb"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bluestrokelight_big_checkbox"
+        android:button="@null"
+        />
     <TextView
         android:id="@+id/ss_server_address_gv_item_tv"
         android:layout_width="130dp"

@@ -44,7 +44,7 @@ public class ServerAddressManger {
         }
 
         if (USE_LOCAL_DATA) {//  Use local data for debug
-            for (int i = 1; i <= 9; i++) {
+            for (int i = 1; i <= 7; i++) {
                 ServerAddress serverAddress = new ServerAddress("地址0"+i+"：","192.168.001.00"+i);
                 mServerAddressList.add(serverAddress);
             }

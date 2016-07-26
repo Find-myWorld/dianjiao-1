@@ -39,6 +39,14 @@
         <service android:name=".service.LoginService"></service>
         <service android:name=".service.MediaSendService"></service>
         <service android:name=".service.PlayControlService"></service>
+        <service android:name=".service.DefiniteService"></service>
+        <receiver android:name=".receive.DefiniteReceive">
+            <intent-filter>
+                <action android:name="android.intent.action.ALARM_RECEIVER" /><!-- 广播接收的定时指令 -->
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -32,4 +32,12 @@ public class ServerAddress implements Serializable{
         this.name = name;
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "ServerAddress{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

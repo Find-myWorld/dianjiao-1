@@ -43,7 +43,7 @@ public class PlanManger {
         }
 
         if (USE_LOCAL_DATA) {//  Use local data for debug
-            for (int i = 1; i <= 8; i++) {
+            for (int i = 1; i <= 3; i++) {
                 Plan plan = new Plan();
                 plan.setAction(Plan.ACTION[0]);
                 List<String> temp = new ArrayList<>();
