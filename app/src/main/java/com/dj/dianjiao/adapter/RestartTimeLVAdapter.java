@@ -125,4 +125,14 @@ public class RestartTimeLVAdapter extends BaseAdapter {
         }
         notifyDataSetChanged();
     }
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
 }

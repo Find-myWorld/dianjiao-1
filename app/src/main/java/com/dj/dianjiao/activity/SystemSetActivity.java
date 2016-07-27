@@ -76,6 +76,8 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
     private Button addAddressBTN;
     private Button deleteAddressBTN;
     private TextView selectItemTV;
+    private Button restartTimeDeleteBTN;
+    private Button restartTimeAddBTN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +137,8 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
         serverAddressServerRB = (RadioButton) findViewById(R.id.ss_server_address_server_rb);
         serverAddressStreamMediaRB = (RadioButton) findViewById(R.id.ss_server_address_stream_media_rb);
 
-
+        restartTimeDeleteBTN = (Button) findViewById(R.id.ss_restart_time_delete_btn);
+        restartTimeAddBTN = (Button) findViewById(R.id.ss_restart_time_add_btn);
 
         restartTimeLV = (ListView) findViewById(R.id.ss_restart_time_lv);
 
@@ -145,6 +148,8 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
 
         addAddressBTN.setOnClickListener(this);
         deleteAddressBTN.setOnClickListener(this);
+        restartTimeAddBTN.setOnClickListener(this);
+        restartTimeDeleteBTN.setOnClickListener(this);
         
         serverAddressGV.setAdapter(serverAddressGVAdapter);
         serverAddressRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -246,7 +251,6 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
 
         switch (v.getId()){
             case R.id.ss_server_address_delete_btn:
-                System.err.println("点击？");
                 for(int i = 0;i <selectBTNList.size();i++){
                     if(deletTag){
                         serverAddressList.remove(Integer.parseInt(selectBTNList.get(i)));
@@ -269,6 +273,18 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
                 serverAddressGVAdapter.setServerAddressList(serverAddressList);
                 serverAddressGVAdapter.notifyDataSetChanged();
                 break;
+            case R.id.ss_restart_time_add_btn:
+                RestartTime restartTime = new RestartTime();
+                restartTime.setName("时间"+(restartTimeList.size()+1));
+                restartTime.setTime("00:00:00");
+                restartTimeList.add(restartTime);
+                restartTimeLVAdapter.setRestartTimeList(restartTimeList);
+                restartTimeLVAdapter.notifyDataSetChanged();
+                break;
+
+            case R.id.ss_restart_time_delete_btn:
+
+                break;
 
         }
     }
@@ -290,9 +306,11 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
         }
     }
 
+    private List<RestartTime> restartTimeList;
     @Override
     public void onGetRestartTimeListCompleted(List<RestartTime> restartTimeList) {
         if(restartTimeList!=null){
+            this.restartTimeList = restartTimeList;
             restartTimeLVAdapter.setRestartTimeList(restartTimeList);
         }
     }

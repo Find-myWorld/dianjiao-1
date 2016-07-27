@@ -76,6 +76,7 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_manger);
+
         initBaseViews();
 
         mContext = getApplicationContext();
@@ -86,7 +87,7 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
         radioButtonList = new ArrayList<RadioButton>();
         fileLVAdapter = new FileLVAdapter(mContext);
         initViews();
-        //EventBus.getDefault().register(this);
+
         planManger.loadPlanList();//去加载计划任务的数据(local)
 
     }
@@ -407,9 +408,9 @@ public class PlanMangerActivity extends BaseActivity implements PlanManger.CallB
     @Override
     protected void onDestroy() {
 
-      //  EventBus.getDefault().post(new DefiniteTimeEvent(planList));
-        //EventBus.getDefault().unregister(this);
         startService(new Intent(this, DefiniteService.class));
+        
+        EventBus.getDefault().post(new DefiniteTimeEvent(planList));
         super.onDestroy();
     }
 }

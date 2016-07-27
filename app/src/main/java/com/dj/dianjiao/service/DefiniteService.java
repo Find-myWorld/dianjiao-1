@@ -3,12 +3,16 @@ package com.dj.dianjiao.service;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 
 import com.dj.dianjiao.domain.DefiniteTimeEvent;
 import com.dj.dianjiao.domain.Plan;
 import com.dj.dianjiao.receive.DefiniteReceive;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -19,27 +23,26 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/7/26.
  */
-public class DefiniteService extends IntentService {
+public class DefiniteService extends Service {
     private List<Plan> timeList;
 
-    public DefiniteService() {
-        super("DefiniteService");
-    }
+
 
     @Subscribe
-    public void onEventMainThread(DefiniteTimeEvent event){
+    public void onEvent(DefiniteTimeEvent event){
         System.err.println("service收到定时任务");
         timeList = event.getTimeList();
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-        Intent intent1 = new Intent(getApplicationContext(), DefiniteReceive.class);
-        intent1.setAction("android.intent.action.ALARM_RECEIVER");
+    public void onCreate() {
+        EventBus.getDefault().register(this);
+        super.onCreate();
+    }
 
-        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent1, 0);
-        manager.set(AlarmManager.RTC_WAKEUP,2000,pendingIntent);
+
+    protected void onHandleIntent(Intent intent) {
+
 
        /* for (Plan plan:timeList) {
 
@@ -86,4 +89,21 @@ public class DefiniteService extends IntentService {
         return weekDays[w];
     }
 
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        Intent intent1 = new Intent(getApplicationContext(), DefiniteReceive.class);
+        intent1.setAction("android.intent.action.ALARM_RECEIVER");
+
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent1, 0);
+        manager.set(AlarmManager.RTC_WAKEUP,2000,pendingIntent);
+        return null;
+    }
 }
