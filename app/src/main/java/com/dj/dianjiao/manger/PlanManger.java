@@ -62,7 +62,7 @@ public class PlanManger {
             setPlanList();
         } else {
             //online
-            File file =
+
             setPlanList();
         }
     }

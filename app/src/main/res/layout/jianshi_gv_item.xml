@@ -12,7 +12,7 @@
         android:padding="10dp"
         android:clickable="false"
         android:src="@color/login_btn_blue"/>
-    <TextView
+    <com.dj.dianjiao.widget.MyTextView
         android:id="@+id/jianshi_gv_item_tv"
         android:layout_below="@id/jianshi_gv_item_iv"
         android:layout_alignParentLeft="true"

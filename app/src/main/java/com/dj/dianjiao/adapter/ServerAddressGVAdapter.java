@@ -1,26 +1,27 @@
 package com.dj.dianjiao.adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dj.dianjiao.R;
-import com.dj.dianjiao.domain.SendPicture;
-import com.dj.dianjiao.domain.SendPictureItemClickEvent;
-import com.dj.dianjiao.domain.SendPictureViewHolder;
 import com.dj.dianjiao.domain.ServerAddress;
 import com.dj.dianjiao.domain.ServerAddressEvent;
-import com.dj.dianjiao.domain.ServerAddressViewHolder;
+import com.dj.dianjiao.utils.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class ServerAddressGVAdapter extends BaseAdapter {
     private static final String TAG = "ServerAddressGVAdapter";
     private Context mContext;
     private List<ServerAddress> serverAddressList;
+    public List<String> serverArr = new ArrayList<>();
+    public List<String> portArrr = new ArrayList<>();
 
     public ServerAddressGVAdapter(Context context){
         mContext = context;
@@ -58,6 +61,7 @@ public class ServerAddressGVAdapter extends BaseAdapter {
         TextView nameTV;
         EditText addressET;
         CheckBox addressCB;
+        EditText addressPortET ;
         ServerAddressViewHolder viewHolder;
 
         if (convertView == null) { // if it's not recycled, instantiate and initialize
@@ -65,22 +69,63 @@ public class ServerAddressGVAdapter extends BaseAdapter {
             addressET = (EditText) convertView.findViewById(R.id.ss_server_address_gv_item_et);
             nameTV = (TextView)convertView.findViewById(R.id.ss_server_address_gv_item_tv);
             addressCB =(CheckBox)convertView.findViewById(R.id.ss_server_address_selete_cb);
-
+            addressPortET = (EditText) convertView.findViewById(R.id.ss_server_address_gv_item_et_port);
             viewHolder = new ServerAddressViewHolder();
             viewHolder.addressET = addressET;
             viewHolder.nameTV = nameTV;
             viewHolder.addressCB = addressCB;
+            viewHolder.addressPortET = addressPortET;
 
         } else { // Otherwise re-use the converted view
             viewHolder = (ServerAddressViewHolder)convertView.getTag();
             addressET = viewHolder.addressET;
             nameTV = viewHolder.nameTV;
             addressCB = viewHolder.addressCB;
+            addressPortET = viewHolder.addressPortET;
         }
+        String serverIptemp = "";
+        addressET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.d("tag","position:"+position+"beforeTextChanged"+s.toString());
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("tag","position:"+position+"onTextChanged"+s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d("tag","position:"+position+"服务器地址修改"+s.toString());
+                SPUtils.put(mContext,"serverIp"+position,s.toString());
+            }
+        });
+
+
+        addressPortET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                SPUtils.put(mContext,"serverPort"+position,s.toString());
+            }
+        });
+
+        viewHolder.flag = position;//记录改变editText的位置
 
         addressET.setText(serverAddress.getAddress());
         nameTV.setText(serverAddress.getName());
         addressCB.setChecked(false);
+        addressPortET.setText(serverAddress.getPort());
 
         convertView.setTag(viewHolder);
         addressCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -102,4 +147,13 @@ public class ServerAddressGVAdapter extends BaseAdapter {
         }
         notifyDataSetChanged();
     }
+    public class ServerAddressViewHolder implements Serializable {
+        public EditText addressET;
+        public TextView nameTV;
+        public CheckBox addressCB;
+        public EditText addressPortET;
+        public TextView namePortTV;
+        public int flag;
+    }
+
 }

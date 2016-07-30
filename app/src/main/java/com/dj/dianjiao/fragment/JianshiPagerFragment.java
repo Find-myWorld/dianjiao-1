@@ -14,7 +14,9 @@ import com.dj.dianjiao.adapter.JianshiGVAdapter;
 import com.dj.dianjiao.domain.BaseEvent;
 import com.dj.dianjiao.domain.Jianshi;
 import com.dj.dianjiao.domain.JianshiItemAllEvent;
+import com.dj.dianjiao.domain.PositionState;
 import com.dj.dianjiao.domain.SerializableDomain;
+import com.dj.dianjiao.utils.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -74,6 +76,20 @@ public class JianshiPagerFragment extends Fragment{
     public void onEvent(BaseEvent event){
         if (event instanceof JianshiItemAllEvent){
             jianshiGVAdapter.selectAll(((JianshiItemAllEvent) event).isSelectAll());
+        }else if(event instanceof PositionState){
+            /*  List<String> positions = ((PositionState) event).getPosition();
+            for (String position:positions) {
+                System.out.println("现在选择的监室为:  "+position);
+                *//*设置监室的状态*//*
+                jianshiList.get(Integer.parseInt(position)).setState(Jianshi.STATE_PLAY);
+                SPUtils.put(mContext,"position:"+position,jianshiList.get(Integer.parseInt(position)).getName());
+                jianshiList.get(Integer.parseInt(position)).setName(((PositionState) event).getMoviemsg());
+            }
+            jianshiGVAdapter.setJianshiList(jianshiList);*/
+            for (Jianshi jianshi:jianshiList){
+                jianshi.setChannel(((PositionState) event).getChannel());
+                System.err.println("fragment~~~`"+((PositionState) event).getChannel());
+            }
         }
     }
 

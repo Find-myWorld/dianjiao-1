@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="450dp"
-    android:layout_height="50dp">
+    android:layout_width="950dp"
+    android:layout_height="50dp"
+                  >
     <CheckBox
         android:id="@+id/ss_server_address_selete_cb"
         android:layout_width="130dp"
@@ -26,6 +27,28 @@
         android:gravity="center"
         android:background="@drawable/selector_white_orange_bg"
         android:text="192.168.111.222"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/ss_server_address_gv_item_tv_port"
+        android:layout_marginRight="30dp"
+        android:layout_toRightOf="@+id/ss_server_address_gv_item_et"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:gravity="center_vertical|right"
+        android:text="端口："
+        android:textSize="20sp"
+        android:textColor="@android:color/white"/>
+
+    <EditText
+        android:gravity="center"
+        android:id="@+id/ss_server_address_gv_item_et_port"
+        android:layout_toRightOf="@+id/ss_server_address_gv_item_tv_port"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@drawable/selector_white_orange_bg"
+        android:text="0000"
         android:textColor="@android:color/darker_gray"
         android:textSize="20sp"/>
 

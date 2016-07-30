@@ -14,12 +14,13 @@ public class ClientHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         System.err.println("返回的消息"+ msg);
+        System.err.println("返回的消息Client-ctx"+ctx.channel().id());
         EventBus.getDefault().post(new LoginResultEvent(Integer.parseInt(msg)));//返回server的登陆结果
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.err.println("连接成功");
+        System.err.println("连接成功Client-ctx"+ctx.channel().id());
         super.channelActive(ctx);
     }
 

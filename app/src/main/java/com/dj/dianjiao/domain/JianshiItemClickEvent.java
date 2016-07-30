@@ -3,9 +3,18 @@ package com.dj.dianjiao.domain;
 /**
  * Created by wmxxkj on 2016/6/23.
  */
-public class JianshiItemClickEvent extends BaseEvent {
+public class   JianshiItemClickEvent extends BaseEvent {
     private boolean isCheck;
     private String name;
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public boolean isCheck() {
         return isCheck;
@@ -25,8 +34,9 @@ public class JianshiItemClickEvent extends BaseEvent {
 
     public JianshiItemClickEvent (){}
 
-    public JianshiItemClickEvent(String name, boolean isCheck) {
+    public JianshiItemClickEvent(String name, boolean isCheck,int position) {
         this.isCheck = isCheck;
         this.name = name;
+        this.position = position;
     }
 }

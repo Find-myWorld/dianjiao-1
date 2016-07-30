@@ -45,7 +45,7 @@
         android:layout_marginBottom="80dp"
         android:padding="30dp"
         android:scrollbars="none"
-        android:numColumns="2"
+        android:numColumns="1"
         android:verticalSpacing="10dp">
 
     </GridView>
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@drawable/shape_top_blue_stroke">
-        <TextView
+        <!--<TextView
             android:id="@+id/ss_server_address_selected_item"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
@@ -72,7 +72,17 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="@android:color/white"
-            android:textSize="18sp"/>
+            android:textSize="18sp"/>-->
+        <Button
+            android:id="@+id/ss_server_address_save_btn"
+            android:background="@drawable/shape_blue_smallcorner_bg"
+            android:textColor="@android:color/white"
+            android:text="@string/server_save"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:textSize="20sp"/>
         <Button
             android:id="@+id/ss_server_address_delete_btn"
             android:layout_alignParentRight="true"

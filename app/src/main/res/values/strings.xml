@@ -102,4 +102,6 @@
     <string name="product_size_body">158.8*104.7*23.6mm</string>
     <string name="service_tel">客服电话</string>
     <string name="service_tel_body">400-123-456</string>
+    <string name="server_save">保存</string>
+    <string name="play_control_dialog">请先选择好监室，再选定播放模式</string>
 </resources>

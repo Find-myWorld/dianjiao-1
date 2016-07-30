@@ -4,6 +4,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dj.dianjiao.widget.AutoScrollTextView;
+import com.dj.dianjiao.widget.MyTextView;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +14,6 @@ import java.io.Serializable;
  */
 public class JianshiViewHolder implements Serializable{
     public ImageView typeIV;
-    public TextView nameTV;
+    public MyTextView nameTV;
     public CheckBox isCheckCB;
 }

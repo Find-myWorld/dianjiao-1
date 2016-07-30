@@ -13,6 +13,37 @@ public class Jianshi implements Serializable{
     private String jianquName;
     private int type;
     private boolean isChecked;
+    private int state;
+    public static final int STATE_FREE = 0;
+    public static final int STATE_PLAY = 1;
+    public static final int STATE_PAUSE = 2;
+    public static final int STATE_SELECTED = 3;
+    private int channel;
+
+    public int getChannel() {
+        return channel;
+    }
+
+    public void setChannel(int channel) {
+        this.channel = channel;
+    }
+    /*private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }*/
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public String getName() {
         return name;
@@ -55,4 +86,6 @@ public class Jianshi implements Serializable{
         this.type = type;
         this.isChecked = isChecked;
     }
+
+
 }

@@ -57,8 +57,7 @@
                     android:layout_width="248dp"
                     android:layout_height="96dp"
                     android:button="@null"
-                    android:background="@drawable/radio_dvd_video"
-                    android:checked="true"/>
+                    android:background="@drawable/radio_dvd_video"/>
 
                 <RadioButton
                     android:id="@+id/pc_tv_rb"
@@ -75,7 +74,18 @@
                     android:layout_height="96dp"
                     android:button="@null"
                     android:background="@drawable/radio_enlarged_class"/>
+
+                <RadioButton
+                    android:id="@+id/pc_temp_hider"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="248dp"
+                    android:layout_height="96dp"
+                    android:button="@null"
+                    android:visibility="gone"
+                    android:background="@drawable/radio_enlarged_class"/>
             </RadioGroup>
+
+
         </RelativeLayout>
 
         <include layout="@layout/base_right"

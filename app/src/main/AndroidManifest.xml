@@ -34,7 +34,8 @@
         <activity android:name=".activity.PlanMangerActivity"
                   android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
-        <activity android:name=".activity.SystemSetActivity" >
+        <activity android:name=".activity.SystemSetActivity"
+                  android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <service android:name=".service.LoginService"></service>
         <service android:name=".service.MediaSendService"></service>

@@ -2,6 +2,7 @@ package com.dj.dianjiao.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -25,6 +26,7 @@ import com.dj.dianjiao.manger.FileManger;
 import com.dj.dianjiao.manger.OnlineMonitorManger;
 import com.dj.dianjiao.manger.RestartTimeManger;
 import com.dj.dianjiao.manger.ServerAddressManger;
+import com.dj.dianjiao.utils.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -78,6 +80,7 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
     private TextView selectItemTV;
     private Button restartTimeDeleteBTN;
     private Button restartTimeAddBTN;
+    private Button saveServerBTN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,9 +131,10 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
         productInfoRL = (RelativeLayout) findViewById(R.id.ss_product_info_rl);
         titleTV = (TextView) findViewById(R.id.ss_title_tv);
 
+        saveServerBTN = (Button) findViewById(R.id.ss_server_address_save_btn);
         addAddressBTN = (Button) findViewById(R.id.ss_server_address_add_btn);
         deleteAddressBTN = (Button) findViewById(R.id.ss_server_address_delete_btn);
-        selectItemTV = (TextView) findViewById(R.id.ss_server_address_selected_item);
+        //selectItemTV = (TextView) findViewById(R.id.ss_server_address_selected_item);
 
         serverAddressGV = (GridView) findViewById(R.id.ss_server_address_gv);
         serverAddressRG = (RadioGroup) findViewById(R.id.ss_server_address_rg);
@@ -267,8 +271,12 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
                 serverAddressGVAdapter.notifyDataSetChanged();
                 break;
             case R.id.ss_server_address_add_btn:
-                selectItemTV.setText("已选项目:"+serverAddressNum);
-                ServerAddress serverAddress = new ServerAddress("地址0"+(serverAddressList.size()+1)+" : ","");
+               // selectItemTV.setText("已选项目:"+serverAddressNum);
+                int serverIpSize = (int) SPUtils.get(mContext, "serverIpSize", 1);
+                //SPUtils.put(mContext,"serverIpSize",serverIpSize++);
+                Log.d("tag",(String)SPUtils.get(mContext,"serverIp"+0,"没有改变"));
+
+                ServerAddress serverAddress = new ServerAddress("地址: ","","");
                 serverAddressList.add(serverAddress);
                 serverAddressGVAdapter.setServerAddressList(serverAddressList);
                 serverAddressGVAdapter.notifyDataSetChanged();
@@ -283,6 +291,9 @@ public class SystemSetActivity extends BaseActivity implements ServerAddressMang
                 break;
 
             case R.id.ss_restart_time_delete_btn:
+
+                break;
+            case R.id.ss_server_address_save_btn:
 
                 break;
 

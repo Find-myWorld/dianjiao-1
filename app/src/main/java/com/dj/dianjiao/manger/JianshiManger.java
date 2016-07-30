@@ -45,6 +45,7 @@ public class JianshiManger {
         if (USE_LOCAL_DATA) {//  Use local data for debug
             for (int i = 1; i <= 39; i++) {
                 Jianshi jianshi = new Jianshi("监室0"+i,jianquName,i%3,false);
+                jianshi.setState(Jianshi.STATE_FREE);
                 mJianshiList.add(jianshi);
             }
             setJianshiList();

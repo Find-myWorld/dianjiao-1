@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class ServerAddress implements Serializable{
     private String name;
     private String address;
+    private String port;
 
     public String getName() {
         return name;
@@ -28,9 +29,18 @@ public class ServerAddress implements Serializable{
     public ServerAddress() {
     }
 
-    public ServerAddress(String name, String address) {
+    public ServerAddress(String name, String address, String port) {
         this.name = name;
         this.address = address;
+        this.port = port;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
     }
 
     @Override
@@ -38,6 +48,7 @@ public class ServerAddress implements Serializable{
         return "ServerAddress{" +
                 "name='" + name + '\'' +
                 ", address='" + address + '\'' +
+                ", port='" + port + '\'' +
                 '}';
     }
 }

@@ -1,5 +1,7 @@
 package com.dj.dianjiao.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,10 +24,13 @@ import com.dj.dianjiao.domain.Jianqu;
 import com.dj.dianjiao.domain.Jianshi;
 import com.dj.dianjiao.domain.JianshiItemAllEvent;
 import com.dj.dianjiao.domain.JianshiItemClickEvent;
+import com.dj.dianjiao.domain.PositionState;
 import com.dj.dianjiao.fragment.JianshiPagerFragment;
 import com.dj.dianjiao.manger.JianquManger;
 import com.dj.dianjiao.manger.JianshiManger;
+import com.dj.dianjiao.netty.NettyClient;
 import com.dj.dianjiao.service.PlayControlService;
+import com.dj.dianjiao.utils.Constant;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -80,7 +85,7 @@ public class PlayControlActivity extends BaseActivity implements JianquManger.Ca
 
         jianquManger.loadJianquList();
     }
-
+    boolean flag = true;//控制dialog显示一次
     private void initViews() {
         controlRG = (RadioGroup) findViewById(R.id.pc_rg);
         jianquRG = (RadioGroup) findViewById(R.id.jianqu_rg);
@@ -93,6 +98,51 @@ public class PlayControlActivity extends BaseActivity implements JianquManger.Ca
         selectAllBTN.setOnClickListener(this);
         delSelectALLBTN.setOnClickListener(this);
         intent = new Intent(this, PlayControlService.class);
+
+
+        /*播放一个dialog*/
+        controlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                /*if(selectedNum==0){
+                    Dialog dialog = new Dialog(PlayControlActivity.this);
+                    dialog.setContentView(R.layout.dialog_play_control);
+                    //dialog.setCanceledOnTouchOutside(false);
+                    if(flag){
+                        dialog.show();
+                        flag = false;
+                    }
+                    if(!dialog.isShowing()){
+                        flag = true;
+                    }
+
+                    RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                    radioButton.setChecked(false);
+                    RadioButton hiddenBTN = (RadioButton) findViewById(R.id.pc_temp_hider);
+                    hiddenBTN.performClick();
+
+                }*/
+                switch(checkedId){
+                    case R.id.pc_dvd_rb:
+                        /*发送播放控制指令*/
+                        /*Intent intent = new Intent(PlayControlActivity.this,PlayControlService.class);
+                        intent.putExtra("playControl","tv");
+                        startService(intent);*/
+                        EventBus.getDefault().post(new PositionState(positionStateList,Jianshi.STATE_SELECTED,"DVD光盘，正在播放", Constant.CHANNEL_DVD));
+                        //controlRG.check(R.id.pc_temp_hider);
+                        break;
+                    case R.id.pc_tv_rb:
+                        EventBus.getDefault().post(new PositionState(positionStateList,Jianshi.STATE_SELECTED,"电视节目源，正在播放",Constant.CHANNEL_TV));
+                        break;
+                    case R.id.pc_class_rb:
+                        EventBus.getDefault().post(new PositionState(positionStateList,Jianshi.STATE_SELECTED,"大课教育，正在播放",Constant.CHANNEL_CLASS));
+                        break;
+                    default:
+                        System.err.println("选中隐藏菜单");
+                        break;
+                }
+            }
+        });
 
 
         jianquRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -221,14 +271,22 @@ public class PlayControlActivity extends BaseActivity implements JianquManger.Ca
                 break;
         }
     }
+    private List<String> positionStateList = new ArrayList<>();
+
 
     @Subscribe
-    public void onEvent(BaseEvent event){
+    public void onEventMain(BaseEvent event){
         if (event instanceof JianshiItemClickEvent){
             if (((JianshiItemClickEvent) event).isCheck()){
                 selectedNum++;
+                positionStateList.add(((JianshiItemClickEvent) event).getPosition()+"");
+
             }else {
                 selectedNum--;
+                if(selectedNum<0){
+                    selectedNum = 0;
+                }
+                positionStateList.remove(((JianshiItemClickEvent) event).getPosition()+"");
             }
             selectNumTV.setText(""+selectedNum);
         }/*else if (event instanceof JianshiItemAllEvent){
@@ -245,23 +303,6 @@ public class PlayControlActivity extends BaseActivity implements JianquManger.Ca
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-
-        switch(controlRG.getCheckedRadioButtonId()){
-            case R.id.pc_dvd_rb:
-                intent.putExtra("playControl","dvd");
-                startService(intent);
-                break;
-            case R.id.pc_tv_rb:
-                intent.putExtra("playControl","tv");
-                startService(intent);
-                break;
-            case R.id.pc_class_rb:
-                intent.putExtra("playControl","class");
-                startService(intent);
-                break;
-            default:
-                break;
-        }
 
     }
 }
